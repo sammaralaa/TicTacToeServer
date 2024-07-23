@@ -10,19 +10,19 @@ package network;
  * @author Electronica Care
  */
 public class playerDTO {
-    private int ID;
     private String userName;
     private String password;
     private boolean isOnline;
     private boolean isAvailable;
+    private int score;
     
-    
-    playerDTO(int id , String name,String pass,boolean online,boolean available){
-        ID=id;
+    playerDTO(String name,String pass,boolean online,boolean available,int score){
+        
         userName=name;
         password=pass;
         isOnline =online;
         isAvailable = available;
+        this.score=score;
     }
     public String getUserName(){
         return userName;
@@ -43,5 +43,12 @@ public class playerDTO {
     }
     public boolean getIsAvailable(){
         return isAvailable;
+    }
+    
+    public void setScore(int s){
+        score = s;
+    }
+    public int getScore(){
+        return score;
     }
 }
