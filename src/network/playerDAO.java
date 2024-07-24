@@ -3,6 +3,7 @@ package network;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,7 +13,7 @@ public class playerDAO {
 
     private static Connection ServerConnection;
 
-    public void startDataBaseConnection() {
+    public static void startDataBaseConnection() {
 
         try {
             DriverManager.registerDriver(new ClientDriver());
@@ -34,13 +35,32 @@ public class playerDAO {
 
     public static void insertPlayer(String name, String pass) {
         try {
-            PreparedStatement pst = ServerConnection.prepareStatement("INSERT INTO PLAYERSDATA (USERNAME,PASSWORD,ISONLINE,ISAVAILABLE) VALUES (?,?,?,?)");
-            pst.setString(2, name);
-            pst.setString(3, pass);
+            PreparedStatement pst = ServerConnection.prepareStatement("INSERT INTO PLAYERDATA (USERNAME,PASSWORD,ISONLINE,ISAVAILABLE,SCORE) VALUES (?,?,?,?,?)");
+            pst.setString(1, name);
+            pst.setString(2, pass);
+            pst.setString(3, "true");
             pst.setString(4, "true");
-            pst.setString(5, "true");
+            pst.setInt(5, 0);
+            pst.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    public static playerDTO searchForPlayer(String name){
+        playerDTO player=null;
+        try {
+            PreparedStatement pst = ServerConnection.prepareStatement("select * from PLAYERDATA where USERNAME = ?");
+            pst.setString(1, name);
+            ResultSet rs = pst.executeQuery() ;
+            if (rs.next()) {
+                player = new playerDTO();
+                player.setUserName(rs.getString("USERNAME"));
+                player.setPassword(rs.getString("PASSWORD"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(playerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return player;
     }
 }

@@ -9,6 +9,7 @@ package network;
  *
  * @author Electronica Care
  */
+import static network.playerDAO.*;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 public class requestHandler {
@@ -21,7 +22,7 @@ public class requestHandler {
         
         switch(request){
             case "login":
-                serverResponse = handleLoginRequest(data,gameHandler);
+                //serverResponse = handleLoginRequest(data,gameHandler);
                 break;
             case "register":
                 
@@ -29,9 +30,24 @@ public class requestHandler {
         return serverResponse;
     }
     
-    public static String handleLoginRequest(JSONObject userData,GameHandler gamehandeler){
+    public static String handleLoginRequest(JSONObject userData/*,GameHandler gamehandeler*/){
         String userName = (String) userData.get("username");
         String password = (String) userData.get("password");
-        return userName;
+        String response;
+        startDataBaseConnection();
+        playerDTO p = searchForPlayer(userName);
+        if(p!=null){
+            if(p.getPassword().equals(password)){
+                 response = "validLogin";
+            }
+            else{
+                System.out.println(p.getPassword());
+                 response = "wrongPassword";
+            }
+        }
+        else{
+             response = "invalidUserName";
+        }
+        return response;
     }
 }

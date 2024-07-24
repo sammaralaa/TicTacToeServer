@@ -31,6 +31,7 @@ public class Server {
             serverSocket = new ServerSocket(SERVER_POORT);
             while (true) {
                 socket = serverSocket.accept();
+                
                 if (isClosed) {
                     socket.close();
                     break;

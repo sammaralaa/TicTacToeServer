@@ -10,45 +10,59 @@ package network;
  * @author Electronica Care
  */
 public class playerDTO {
+
     private String userName;
     private String password;
     private boolean isOnline;
     private boolean isAvailable;
     private int score;
-    
-    playerDTO(String name,String pass,boolean online,boolean available,int score){
-        
-        userName=name;
-        password=pass;
-        isOnline =online;
+
+    playerDTO(String name, String pass, boolean online, boolean available, int score) {
+
+        userName = name;
+        password = pass;
+        isOnline = online;
         isAvailable = available;
-        this.score=score;
+        this.score = score;
     }
-    public String getUserName(){
+    playerDTO(){}
+
+    public String getUserName() {
         return userName;
     }
-    public String getPassword(){
+
+    public void setUserName(String name) {
+        userName = name;
+    }
+
+    public String getPassword() {
         return password;
     }
-    
-    public void setIsOnline(boolean online){
+    public void setPassword(String pass) {
+        password=pass;
+    }
+
+    public void setIsOnline(boolean online) {
         isOnline = online;
     }
-    public boolean getIsOnline(){
+
+    public boolean getIsOnline() {
         return isOnline;
     }
-    
-    public void setIsAvailable(boolean available){
+
+    public void setIsAvailable(boolean available) {
         isOnline = available;
     }
-    public boolean getIsAvailable(){
+
+    public boolean getIsAvailable() {
         return isAvailable;
     }
-    
-    public void setScore(int s){
+
+    public void setScore(int s) {
         score = s;
     }
-    public int getScore(){
+
+    public int getScore() {
         return score;
     }
 }

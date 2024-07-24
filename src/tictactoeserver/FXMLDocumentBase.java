@@ -39,24 +39,25 @@ public class FXMLDocumentBase extends AnchorPane {
 
         getChildren().add(button);
         getChildren().add(label);
-        try {
-            DriverManager.registerDriver(new ClientDriver());
-            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/players", "root", "root");
-            Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            // String queryString = new String("select * from CONTACTSDATA");
-
-            //        rs = stmt.executeQuery(queryString);
-            PreparedStatement pst = con.prepareStatement("INSERT INTO PLAYERSDATA (ID,USERNAME,PASSWORD,ISONLINE,ISAVAILABLE) VALUES (?,?,?,?,?)");
-            pst.setInt(1, 2);
-            pst.setString(2, "SAMMAR");
-            pst.setString(3, "sd2344s");
-            pst.setString(4,"true");
-            pst.setString(5, "false");
-            
-            int l = pst.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+//        try {
+//            DriverManager.registerDriver(new ClientDriver());
+//            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/players", "root", "root");
+//            Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+//            // String queryString = new String("select * from CONTACTSDATA");
+//
+//            //        rs = stmt.executeQuery(queryString);
+//            PreparedStatement pst = con.prepareStatement("INSERT INTO PLAYERDATA (USERNAME,PASSWORD,ISONLINE,ISAVAILABLE,SCORE) VALUES (?,?,?,?,?)");
+//            
+//            pst.setString(1, "SAMMAR");
+//            pst.setString(2, "sd2344s");
+//            pst.setString(3,"true");
+//            pst.setString(4, "false");
+//            pst.setInt(5, 0);
+//            
+//            int l = pst.executeUpdate();
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        }
 
     }
 
