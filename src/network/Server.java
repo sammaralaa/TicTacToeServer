@@ -8,9 +8,11 @@ package network;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static network.ClientHandler.*;
 
 /**
  *
@@ -20,23 +22,26 @@ public class Server {
 
     public static ServerSocket serverSocket;
     public static final int SERVER_POORT = 5005;
-    public static boolean isClosed = false;
-    static Vector<String> clientsVector;
+    public static boolean isClosed = true;
+    //static Vector<String> clientsVector;
     public static Socket socket;
 
     public static void startServer() {
         isClosed = false;
-        clientsVector = new Vector<String>();
+        clientsHandler = new ArrayList<>();
         try {
             serverSocket = new ServerSocket(SERVER_POORT);
-            while (true) {
+            while (serverSocket != null && !serverSocket.isClosed()) {
                 socket = serverSocket.accept();
                 
                 if (isClosed) {
                     socket.close();
                     break;
                 }
-                //clientsVector.add("aaa");
+                newClientHandler(socket);
+                //for test
+               // ClientHandler.acceptRequests();
+
             }
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -48,8 +53,9 @@ public class Server {
     public static void closeServer() {
          
         //clientsVector.broadCastToAll(string msg);
-        for (int i = 0; i < clientsVector.size(); i++) {
-            //close streams and socket for every player
+        for (int i = 0; i < ClientHandler.clientsHandler.size(); i++) {
+            clientsHandler.get(i).closeConnection();
+           
         }
         if (!isClosed) {
 

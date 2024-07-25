@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import network.Server;
 import static network.playerDAO.*;
 import static network.requestHandler.*;
 import org.json.simple.JSONObject;
@@ -36,10 +37,7 @@ public class TicTacToeServer extends Application {
     public static void main(String[] args) {
        // startDataBaseConnection();
         //insertPlayer("SAMMAR","sd2344s");
-        JSONObject userData = new JSONObject();
-        userData.put("username", "SAMMAR");
-        userData.put("password", "sd2344s");
-        handleLoginRequest(userData);
+        Server.startServer();
         launch(args);
     }
     

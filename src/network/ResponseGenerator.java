@@ -5,10 +5,17 @@
  */
 package network;
 
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+
 /**
  *
  * @author Electronica Care
  */
 public class ResponseGenerator {
-    
+    public static String playerNotExistResponse() {
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("response", "player not exists");
+        return responseObject.toString();
+    }
 }

@@ -9,20 +9,21 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
  *
  * @author Electronica Care
  */
-public class GameHandler {
+public class ClientHandler {
      private Socket socket;
     private DataInputStream inputStream;
     private PrintStream printStream;
     
-    static Vector<GameHandler> clientsVector = new Vector<GameHandler>();
+    static ArrayList<ClientHandler> clientsHandler;
     
-    public GameHandler(Socket socket) {
+    public ClientHandler(Socket socket) {
         try {
             this.socket=socket;
             inputStream = new DataInputStream(socket.getInputStream());
@@ -30,17 +31,23 @@ public class GameHandler {
            // if()
            // ChatHandler.clientsVector.add(this);
            // start();
+           acceptRequests();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     
-    public void acceptRequests(){
+    public static void newClientHandler(Socket s){
+        clientsHandler.add(new ClientHandler(s));
+    }
+    
+    public  void acceptRequests(){
         new Thread(() -> {
             try {
                 String playerRequest;
                     while (!socket.isClosed() &&(playerRequest = inputStream.readLine()) != null) {
-                     //   sendResponse(requestHandler.handleRequest(playerRequest, GameHandler.this));
+                      sendResponse(requestHandler.handleRequest(playerRequest, ClientHandler.this));
+                     // System.out.println(playerRequest);
                     }
             } catch (Exception e) {
                 System.out.println("exception in accept response");
@@ -48,5 +55,18 @@ public class GameHandler {
             }
         }).start();
     
+    }
+    
+    public void sendResponse(String response){
+        if(response == null)
+            return;
+        try{
+        printStream.println(response);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void closeConnection(){
+        
     }
 }

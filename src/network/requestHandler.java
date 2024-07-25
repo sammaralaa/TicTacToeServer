@@ -9,12 +9,13 @@ package network;
  *
  * @author Electronica Care
  */
+import static network.ResponseGenerator.playerNotExistResponse;
 import static network.playerDAO.*;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 public class requestHandler {
     
-    public static String handleRequest(String reqeust, GameHandler gameHandler){
+    public static String handleRequest(String reqeust, ClientHandler clientHandler){
         String serverResponse = null;
         JSONObject requestObject = (JSONObject) JSONValue.parse(reqeust);
         String request = (String) requestObject.get("request");
@@ -22,7 +23,7 @@ public class requestHandler {
         
         switch(request){
             case "login":
-                //serverResponse = handleLoginRequest(data,gameHandler);
+                //serverResponse = handleLoginRequest(data,clientHandler);
                 break;
             case "register":
                 
@@ -30,7 +31,7 @@ public class requestHandler {
         return serverResponse;
     }
     
-    public static String handleLoginRequest(JSONObject userData/*,GameHandler gamehandeler*/){
+    public static String handleLoginRequest(JSONObject userData/*,ClientHandler clienthandeler*/){
         String userName = (String) userData.get("username");
         String password = (String) userData.get("password");
         String response;
@@ -46,7 +47,7 @@ public class requestHandler {
             }
         }
         else{
-             response = "invalidUserName";
+             response = playerNotExistResponse();
         }
         return response;
     }
