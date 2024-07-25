@@ -24,7 +24,7 @@ public class playerDAO {
         }
     }
 
-    public void closeDataBaseConnetion() {
+    public static void closeDataBaseConnetion() {
 
         try {
             ServerConnection.close();
