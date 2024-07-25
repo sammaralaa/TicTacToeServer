@@ -16,7 +16,7 @@ import static network.ClientHandler.*;
 
 /**
  *
- * @author Electronica Care
+ * @author sammar alaa
  */
 public class Server {
 

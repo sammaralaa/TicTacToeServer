@@ -10,7 +10,7 @@ import org.json.simple.JSONValue;
 
 /**
  *
- * @author Electronica Care
+ * @author sammar alaa
  */
 public class ResponseGenerator {
     public static String playerNotExistResponse() {

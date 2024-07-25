@@ -14,7 +14,7 @@ import java.util.Vector;
 
 /**
  *
- * @author Electronica Care
+ * @author sammar alaa
  */
 public class ClientHandler {
      private Socket socket;

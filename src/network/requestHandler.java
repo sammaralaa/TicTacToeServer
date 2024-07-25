@@ -7,7 +7,7 @@ package network;
 
 /**
  *
- * @author Electronica Care
+ * @author sammar alaa
  */
 import static network.ResponseGenerator.playerNotExistResponse;
 import static network.playerDAO.*;
