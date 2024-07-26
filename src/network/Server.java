@@ -39,8 +39,7 @@ public class Server {
                     break;
                 }
                 newClientHandler(socket);
-                //for test
-               // ClientHandler.acceptRequests();
+                
 
             }
         } catch (IOException ex) {

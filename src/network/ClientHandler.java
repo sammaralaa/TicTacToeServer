@@ -20,7 +20,7 @@ public class ClientHandler {
      private Socket socket;
     private DataInputStream inputStream;
     private PrintStream printStream;
-    
+    public playerDTO player;
     static ArrayList<ClientHandler> clientsHandler;
     
     public ClientHandler(Socket socket) {
@@ -47,11 +47,11 @@ public class ClientHandler {
                 String playerRequest;
                     while (!socket.isClosed() &&(playerRequest = inputStream.readLine()) != null) {
                       sendResponse(requestHandler.handleRequest(playerRequest, ClientHandler.this));
-                     // System.out.println(playerRequest);
+                      System.out.println(playerRequest);
                     }
             } catch (Exception e) {
                 System.out.println("exception in accept response");
-                //closeEveryThing();
+                //closeConnection();
             }
         }).start();
     

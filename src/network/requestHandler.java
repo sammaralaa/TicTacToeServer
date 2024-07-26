@@ -9,7 +9,7 @@ package network;
  *
  * @author sammar alaa
  */
-import static network.ResponseGenerator.playerNotExistResponse;
+import static network.ResponseGenerator.*;
 import static network.playerDAO.*;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -24,7 +24,7 @@ public class requestHandler {
 
         switch (request) {
             case "login":
-                //serverResponse = handleLoginRequest(data,clientHandler);
+                serverResponse = handleLoginRequest(data,clientHandler);
                 break;
             case "register":
 
@@ -32,18 +32,18 @@ public class requestHandler {
         return serverResponse;
     }
 
-    public static String handleLoginRequest(JSONObject userData/*,ClientHandler clienthandeler*/) {
+    public static String handleLoginRequest(JSONObject userData,ClientHandler clientHandler) {
         String userName = (String) userData.get("username");
         String password = (String) userData.get("password");
         String response;
         startDataBaseConnection();
-        playerDTO p = searchForPlayer(userName);
-        if (p != null) {
-            if (p.getPassword().equals(password)) {
-                response = "validLogin";
+        clientHandler.player = searchForPlayer(userName);
+        if (clientHandler.player!= null) {
+            if (clientHandler.player.getPassword().equals(password)) {
+                response = loginSuccessResponse(userName,password);
             } else {
-                System.out.println(p.getPassword());
-                response = "wrongPassword";
+               // System.out.println(clientHandler.player.getPassword());
+                response = wrongPasswordResponse();
             }
         } else {
             response = playerNotExistResponse();
