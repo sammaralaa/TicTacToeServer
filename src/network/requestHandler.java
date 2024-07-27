@@ -25,27 +25,30 @@ public class requestHandler {
 
         switch (request) {
             case "login":
-                serverResponse = handleLoginRequest(data,clientHandler);
+                serverResponse = handleLoginRequest(data, clientHandler);
                 break;
             case "register":
-                serverResponse=handleRegisterRequest(data,clientHandler);
+                serverResponse = handleRegisterRequest(data, clientHandler);
+                break;
+            case "getOnlinePlayersList":
+                serverResponse = handleGetOnlinePlayersRequest(data, clientHandler);
                 break;
 
         }
         return serverResponse;
     }
 
-    public static String handleLoginRequest(JSONObject userData,ClientHandler clientHandler) {
+    public static String handleLoginRequest(JSONObject userData, ClientHandler clientHandler) {
         String userName = (String) userData.get("username");
         String password = (String) userData.get("password");
         String response;
         startDataBaseConnection();
         clientHandler.player = searchForPlayer(userName);
-        if (clientHandler.player!= null) {
+        if (clientHandler.player != null) {
             if (clientHandler.player.getPassword().equals(password)) {
-                response =ResponseGenerator.loginSuccessResponse(userName,password);
+                response = ResponseGenerator.loginSuccessResponse(userName, password);
             } else {
-               // System.out.println(clientHandler.player.getPassword());
+                // System.out.println(clientHandler.player.getPassword());
                 response = wrongPasswordResponse();
             }
         } else {
@@ -55,7 +58,7 @@ public class requestHandler {
         return response;
     }
 
-    public static String handleRegisterRequest(JSONObject userData,ClientHandler clienthandeler) {
+    public static String handleRegisterRequest(JSONObject userData, ClientHandler clienthandeler) {
         String userName = (String) userData.get("username");
         String password = (String) userData.get("password");
         String response;
@@ -63,14 +66,15 @@ public class requestHandler {
         playerDTO p = playerDAO.searchForPlayer(userName);
         if (p == null) {
             playerDAO.insertPlayer(userName, password);
-            response = successfulReqisration(userName,password);
+            response = successfulReqisration(userName, password);
         } else {
             response = playerExist();
         }
 
         return response;
     }
-    public static String handleGetOnlinePlayersRequest(JSONObject userData,ClientHandler clienthandeler){
+
+    public static String handleGetOnlinePlayersRequest(JSONObject userData, ClientHandler clienthandeler) {
         startDataBaseConnection();
         ArrayList<playerDTO> onlinePlayersLIst = new ArrayList<>();
         onlinePlayersLIst = playerDAO.getOnlinePlayers();
