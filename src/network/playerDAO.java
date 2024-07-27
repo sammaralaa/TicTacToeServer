@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.derby.jdbc.ClientDriver;
@@ -46,13 +47,13 @@ public class playerDAO {
             ex.printStackTrace();
         }
     }
-    
-    public static playerDTO searchForPlayer(String name){
-        playerDTO player=null;
+
+    public static playerDTO searchForPlayer(String name) {
+        playerDTO player = null;
         try {
             PreparedStatement pst = ServerConnection.prepareStatement("select * from PLAYERDATA where USERNAME = ?");
             pst.setString(1, name);
-            ResultSet rs = pst.executeQuery() ;
+            ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 player = new playerDTO();
                 player.setUserName(rs.getString("USERNAME"));
@@ -63,4 +64,6 @@ public class playerDAO {
         }
         return player;
     }
+
+    
 }
