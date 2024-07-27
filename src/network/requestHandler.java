@@ -33,7 +33,8 @@ public class requestHandler {
             case "getOnlinePlayersList":
                 serverResponse = handleGetOnlinePlayersRequest(data, clientHandler);
                 break;
-
+            case "sendInvitation":
+                sendInvitationRequest(data, clientHandler);
         }
         return serverResponse;
     }
@@ -81,5 +82,18 @@ public class requestHandler {
         String response;
         response = ResponseGenerator.onlinePlayers(onlinePlayersLIst);
         return response;
+    }
+    public static int sendInvitationRequest(JSONObject userData, ClientHandler clienthandeler){
+        int size = ClientHandler.clientsHandler.size();
+        //ClientHandler Reciever = new ClientHandler();
+        String userName = (String) userData.get("username");
+        int userID=-1;
+        for(int i=0;i<size;i++){
+            if(ClientHandler.clientsHandler.get(i).player.getUserName().equals(userName)){
+                userID=i;
+                break;
+            }
+        }
+        return userID;
     }
 }
