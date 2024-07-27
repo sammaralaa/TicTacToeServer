@@ -90,4 +90,49 @@ public class playerDAO {
         }
         return onlinePlayers;
     }
+    // Function to get all players from database
+    public static ArrayList<playerDTO> getAllPlayers() {
+        
+        ArrayList<playerDTO> playersArray = new ArrayList<>();
+        try {
+            
+            PreparedStatement pst = ServerConnection.prepareStatement("SELECT * FROM PLAYERDATA");
+            ResultSet resultSet = pst.executeQuery();
+            while (resultSet.next()) {
+                playersArray.add(new playerDTO(
+                        resultSet.getString("USERNAME"),
+                        resultSet.getString("PASSWORD"),
+                        Boolean.parseBoolean(resultSet.getString("ISONLINE")),
+                         Boolean.parseBoolean(resultSet.getString("ISAVAILABLE")),
+                        resultSet.getInt("SCORE")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(playerDTO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return playersArray;
+    }
+    
+    //Function to set Player Online Status into database
+    public static void setPlayerOnlineStatus(String username, boolean isOnline) {
+    String query = "UPDATE PLAYERDATA SET ISONLINE = ? WHERE USERNAME = ?";
+    try (PreparedStatement pst = ServerConnection.prepareStatement(query)) {
+        pst.setString(1, Boolean.toString(isOnline));
+        pst.setString(2, username);
+        pst.executeUpdate();
+    } catch (SQLException ex) {
+        Logger.getLogger(playerDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}
+    //Function to set Player Online Status into database
+    public static void setPlayerAvailableStatus(String username, boolean isAvailable) {
+    String query = "UPDATE PLAYERDATA SET ISAVAILABLE = ? WHERE USERNAME = ?";
+    try (PreparedStatement pst = ServerConnection.prepareStatement(query)) {
+        pst.setString(1, Boolean.toString(isAvailable));
+        pst.setString(2, username);
+        pst.executeUpdate();
+    } catch (SQLException ex) {
+        Logger.getLogger(playerDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}
+    
 }
