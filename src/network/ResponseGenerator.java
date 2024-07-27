@@ -58,7 +58,7 @@ public class ResponseGenerator {
         responseObject.put("count",players.size());
         JSONObject data = new JSONObject();
         for(int i =0 ; i<players.size();i++){
-            data.put(i, players.get(i));
+            data.put(i+"", players.get(i));
         }
          responseObject.put("data", data);
          return responseObject.toString();
