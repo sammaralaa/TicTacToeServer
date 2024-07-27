@@ -34,4 +34,21 @@ public class ResponseGenerator {
         responseObject.put("data", userData);
         return responseObject.toString();
     }
+    
+    public static String successfulReqisration(String name , String pass) {
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("response", "successfulReqisration");
+        
+        JSONObject userData = new JSONObject();
+        userData.put("username", name);
+        userData.put("password", pass);
+        
+        responseObject.put("data", userData);
+        return responseObject.toString();
+    }
+   public static String playerExist() {
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("response", "playerExist");
+        return responseObject.toString();
+    } 
 }

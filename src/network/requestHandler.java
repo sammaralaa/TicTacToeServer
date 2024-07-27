@@ -27,6 +27,8 @@ public class requestHandler {
                 serverResponse = handleLoginRequest(data,clientHandler);
                 break;
             case "register":
+                serverResponse=handleRegisterRequest(data,clientHandler);
+                break;
 
         }
         return serverResponse;
@@ -52,7 +54,7 @@ public class requestHandler {
         return response;
     }
 
-    public static String handleRegisterRequest(JSONObject userData/*,ClientHandler clienthandeler*/) {
+    public static String handleRegisterRequest(JSONObject userData,ClientHandler clienthandeler) {
         String userName = (String) userData.get("username");
         String password = (String) userData.get("password");
         String response;
@@ -60,9 +62,9 @@ public class requestHandler {
         playerDTO p = playerDAO.searchForPlayer(userName);
         if (p == null) {
             playerDAO.insertPlayer(userName, password);
-            response = "successfulReqisration";
+            response = successfulReqisration(userName,password);
         } else {
-            response = "playerExist";
+            response = playerExist();
         }
 
         return response;
