@@ -5,6 +5,7 @@
  */
 package network;
 
+import java.util.ArrayList;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
@@ -51,4 +52,16 @@ public class ResponseGenerator {
         responseObject.put("response", "playerExist");
         return responseObject.toString();
     } 
+     public static String onlinePlayers(ArrayList<playerDTO> players){
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("response", "onlinePlayersList");
+        responseObject.put("count",players.size());
+        JSONObject data = new JSONObject();
+        for(int i =0 ; i<players.size();i++){
+            data.put(i, players.get(i).getUserName());
+        }
+         responseObject.put("data", data);
+         return responseObject.toString();
+     }
+     
 }

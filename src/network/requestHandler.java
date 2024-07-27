@@ -9,6 +9,7 @@ package network;
  *
  * @author sammar alaa
  */
+import java.util.ArrayList;
 import static network.ResponseGenerator.*;
 import static network.playerDAO.*;
 import org.json.simple.JSONObject;
@@ -42,7 +43,7 @@ public class requestHandler {
         clientHandler.player = searchForPlayer(userName);
         if (clientHandler.player!= null) {
             if (clientHandler.player.getPassword().equals(password)) {
-                response = loginSuccessResponse(userName,password);
+                response =ResponseGenerator.loginSuccessResponse(userName,password);
             } else {
                // System.out.println(clientHandler.player.getPassword());
                 response = wrongPasswordResponse();
@@ -67,6 +68,14 @@ public class requestHandler {
             response = playerExist();
         }
 
+        return response;
+    }
+    public static String handleGetOnlinePlayersRequest(JSONObject userData,ClientHandler clienthandeler){
+        startDataBaseConnection();
+        ArrayList<playerDTO> onlinePlayersLIst = new ArrayList<>();
+        onlinePlayersLIst = playerDAO.getOnlinePlayers();
+        String response;
+        response = ResponseGenerator.onlinePlayers(onlinePlayersLIst);
         return response;
     }
 }
