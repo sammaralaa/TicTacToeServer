@@ -65,5 +65,29 @@ public class playerDAO {
         return player;
     }
 
-    
+    public static ArrayList<playerDTO> getOnlinePlayers() {
+        ArrayList<playerDTO> onlinePlayers = new ArrayList<>();
+        try {
+            PreparedStatement pst = ServerConnection.prepareStatement("select * from PLAYERDATA where ISONLINE = ? and ISAVAILABLE");
+            pst.setString(1, "true");
+            pst.setString(1, "true");
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                onlinePlayers.add(new playerDTO(
+                        rs.getString("USERNAME"),
+                        rs.getString("PASSWORD"),
+                        Boolean.parseBoolean(rs.getString("ISONLINE")),
+                         Boolean.parseBoolean(rs.getString("ISAVAILABLE")),
+                        rs.getInt("SCORE")
+                ));
+
+            }
+           
+
+        } catch (SQLException ex) {
+            Logger.getLogger(playerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return onlinePlayers;
+    }
 }
