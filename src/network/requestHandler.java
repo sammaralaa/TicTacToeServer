@@ -76,7 +76,7 @@ public class requestHandler {
 
     public static String handleGetOnlinePlayersRequest(JSONObject userData, ClientHandler clienthandeler) {
         startDataBaseConnection();
-        ArrayList<playerDTO> onlinePlayersLIst = new ArrayList<>();
+        ArrayList<String> onlinePlayersLIst = new ArrayList<>();
         onlinePlayersLIst = playerDAO.getOnlinePlayers();
         String response;
         response = ResponseGenerator.onlinePlayers(onlinePlayersLIst);
