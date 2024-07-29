@@ -35,7 +35,7 @@ public class Server {
                     socket.close();
                     break;
                 }
-                System.out.println(socket.isClosed());
+                //System.out.println(socket.isClosed());
                 newClientHandler(socket);
                 
 

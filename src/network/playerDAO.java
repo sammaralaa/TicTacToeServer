@@ -68,9 +68,9 @@ public class playerDAO {
     public static ArrayList<String> getOnlinePlayers() {
         ArrayList<String> onlinePlayers = new ArrayList<>();
         try {
-            PreparedStatement pst = ServerConnection.prepareStatement("select USERNAME from PLAYERDATA where ISONLINE = ? and ISAVAILABLE");
-            pst.setString(1, "true");
-            pst.setString(1, "true");
+            PreparedStatement pst = ServerConnection.prepareStatement("select USERNAME from PLAYERDATA where ONLINE = ? and AVAILABLE = ? ");
+            pst.setString(1, "T");
+            pst.setString(2, "T");
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -82,7 +82,8 @@ public class playerDAO {
            
 
         } catch (SQLException ex) {
-            Logger.getLogger(playerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+           // Logger.getLogger(playerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return onlinePlayers;
     }
@@ -109,10 +110,11 @@ public class playerDAO {
     }
     
     //Function to set Player Online Status into database
-    public static void setPlayerOnlineStatus(String username, boolean isOnline) {
-    String query = "UPDATE PLAYERDATA SET ISONLINE = ? WHERE USERNAME = ?";
-    try (PreparedStatement pst = ServerConnection.prepareStatement(query)) {
-        pst.setString(1, Boolean.toString(isOnline));
+    public static void setPlayerOnlineStatus(String username, String isOnline) {
+//    String query = ;
+    try  {
+        PreparedStatement pst = ServerConnection.prepareStatement("UPDATE PLAYERDATA SET ONLINE = ? WHERE USERNAME = ?");
+        pst.setString(1, isOnline);
         pst.setString(2, username);
         pst.executeUpdate();
     } catch (SQLException ex) {
@@ -120,10 +122,11 @@ public class playerDAO {
     }
 }
     //Function to set Player Online Status into database
-    public static void setPlayerAvailableStatus(String username, boolean isAvailable) {
-    String query = "UPDATE PLAYERDATA SET ISAVAILABLE = ? WHERE USERNAME = ?";
-    try (PreparedStatement pst = ServerConnection.prepareStatement(query)) {
-        pst.setString(1, Boolean.toString(isAvailable));
+    public static void setPlayerAvailableStatus(String username, String isAvailable) {
+    
+    try  {
+        PreparedStatement pst = ServerConnection.prepareStatement("UPDATE PLAYERDATA SET AVAILABLE = ? WHERE USERNAME = ?");
+        pst.setString(1, isAvailable);
         pst.setString(2, username);
         pst.executeUpdate();
     } catch (SQLException ex) {
