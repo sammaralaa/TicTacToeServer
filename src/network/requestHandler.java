@@ -134,7 +134,7 @@ public class requestHandler {
         
         if (receiverHandler != null) {
             receiverHandler.sendResponse(ResponseGenerator.invitationReceivedResponse(sender));
-            return ResponseGenerator.invitationSentResponse(receiver);
+            return ResponseGenerator.invitationSentResponse(sender);
         } else {
             return ResponseGenerator.playerNotExistResponse();
         }
