@@ -43,7 +43,7 @@ public class requestHandler {
         String userName = (String) userData.get("username");
         String password = (String) userData.get("password");
         String response;
-        startDataBaseConnection();
+        playerDAO.startDataBaseConnection();
         clientHandler.player = searchForPlayer(userName);
         if (clientHandler.player != null) {
             if (clientHandler.player.getPassword().equals(password)) {
@@ -55,7 +55,7 @@ public class requestHandler {
         } else {
             response = playerNotExistResponse();
         }
-        closeDataBaseConnetion();
+        playerDAO.closeDataBaseConnetion();
         return response;
     }
 
@@ -71,7 +71,7 @@ public class requestHandler {
         } else {
             response = playerExist();
         }
-
+        playerDAO.closeDataBaseConnetion();
         return response;
     }
 
@@ -91,6 +91,7 @@ public class requestHandler {
         for(int i=0;i<size;i++){
             if(ClientHandler.clientsHandler.get(i).player.getUserName().equals(userName)){
                 userID=i;
+                //ClientHandler.clientsHandler.get(i).sendResponse(userName);
                 break;
             }
         }
