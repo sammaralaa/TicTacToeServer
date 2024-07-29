@@ -34,7 +34,14 @@ public class requestHandler {
                 serverResponse = handleGetOnlinePlayersRequest(data, clientHandler);
                 break;
             case "sendInvitation":
-                sendInvitationRequest(data, clientHandler);
+                serverResponse = handleSendInvitationRequest(data, clientHandler);
+                break;
+            case "acceptInvitation":
+                serverResponse = handleAcceptInvitationRequest(data, clientHandler);
+                break;
+            case "declineInvitation":
+                serverResponse = handleDeclineInvitationRequest(data, clientHandler);
+                break;
         }
         return serverResponse;
     }
@@ -83,18 +90,66 @@ public class requestHandler {
         response = ResponseGenerator.onlinePlayers(onlinePlayersLIst);
         return response;
     }
-    public static int sendInvitationRequest(JSONObject userData, ClientHandler clienthandeler){
-        int size = ClientHandler.clientsHandler.size();
-        //ClientHandler Reciever = new ClientHandler();
-        String userName = (String) userData.get("username");
-        int userID=-1;
-        for(int i=0;i<size;i++){
-            if(ClientHandler.clientsHandler.get(i).player.getUserName().equals(userName)){
-                userID=i;
-                //ClientHandler.clientsHandler.get(i).sendResponse(userName);
-                break;
+
+//    public static int sendInvitationRequest(JSONObject userData, ClientHandler clienthandeler) {
+//        int size = ClientHandler.clientsHandler.size();
+//        //ClientHandler Reciever = new ClientHandler();
+//        String userName = (String) userData.get("username");
+//        int userID = -1;
+//        for (int i = 0; i < size; i++) {
+//            if (ClientHandler.clientsHandler.get(i).player.getUserName().equals(userName)) {
+//                userID = i;
+//                //ClientHandler.clientsHandler.get(i).sendResponse(userName);
+//                break;
+//            }
+//        }
+//        return userID;
+//    }
+    public static String handleSendInvitationRequest(JSONObject invitationData, ClientHandler clientHandler) {
+        String sender = (String) invitationData.get("invitationSender");
+        String receiver = (String) invitationData.get("invitationReceiver");
+        ClientHandler receiverHandler = findClientHandlerByName(receiver);
+        
+        if (receiverHandler != null) {
+            receiverHandler.sendResponse(ResponseGenerator.invitationReceivedResponse(sender));
+            return ResponseGenerator.invitationSentResponse(receiver);
+        } else {
+            return ResponseGenerator.playerNotExistResponse();
+        }
+    }
+
+    private static ClientHandler findClientHandlerByName(String playerName) {
+        for (ClientHandler handler : ClientHandler.clientsHandler) {
+            if (handler.player.getUserName().equals(playerName)) {
+                return handler;
             }
         }
-        return userID;
+        return null;
     }
+     private static String handleAcceptInvitationRequest(JSONObject data, ClientHandler clientHandler) {
+        String senderPlayerName = (String) data.get("sender");
+        ClientHandler senderPlayerHandler = findClientHandlerByName(senderPlayerName);
+
+        if (senderPlayerHandler != null) {
+            // Notify the sender that the invitation was accepted
+            senderPlayerHandler.sendResponse(ResponseGenerator.invitationAccepted(clientHandler.player.getUserName()));
+            return ResponseGenerator.invitationAccepted(clientHandler.player.getUserName());
+        } else {
+            return ResponseGenerator.playerNotExistResponse();
+        }
+    }
+
+    private static String handleDeclineInvitationRequest(JSONObject data, ClientHandler clientHandler) {
+        String senderPlayerName = (String) data.get("sender");
+        ClientHandler senderPlayerHandler = findClientHandlerByName(senderPlayerName);
+
+        if (senderPlayerHandler != null) {
+            // Notify the sender that the invitation was declined
+            senderPlayerHandler.sendResponse(ResponseGenerator.invitationDeclined(clientHandler.player.getUserName()));
+            return ResponseGenerator.invitationDeclined(clientHandler.player.getUserName());
+        } else {
+            return ResponseGenerator.playerNotExistResponse();
+        }
+    }
+    
 }

@@ -63,6 +63,38 @@ public class ResponseGenerator {
          responseObject.put("data", data);
          return responseObject.toString();
      }
+     public static String invitationReceivedResponse(String sender) {
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("response", "invitationReceived");
+        responseObject.put("sender", sender);
+        return responseObject.toString();
+    }
+     // to resever
+    public static String invitationSentResponse(String receiver) {
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("response", "invitationSent");
+        responseObject.put("receiver", receiver);
+        return responseObject.toString();
+    }
+    public static String invitationReceived(String sender) {
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("response", "invitationReceived");
+        responseObject.put("sender", sender);
+        return responseObject.toString();
+    }
+
+    public static String invitationAccepted(String sender) {
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("response", "invitationAccepted");
+        responseObject.put("acceptingPlayer", sender);
+        return responseObject.toString();
+    }
+    public static String invitationDeclined(String sender) {
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("response", "invitationDeclined");
+        responseObject.put("decliningPlayer", sender);
+        return responseObject.toString();
+    }
     
      
 }
