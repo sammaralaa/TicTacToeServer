@@ -26,6 +26,7 @@ public class requestHandler {
         switch (request) {
             case "login":
                 serverResponse = handleLoginRequest(data, clientHandler);
+                System.out.println("from handle login request from requestHandler");
                 break;
             case "register":
                 serverResponse = handleRegisterRequest(data, clientHandler);
@@ -35,6 +36,12 @@ public class requestHandler {
                 break;
             case "sendInvitation":
                 sendInvitationRequest(data, clientHandler);
+                break;
+            case "logout":
+                handleLogoutRequest(data,clientHandler);
+                System.out.println("from handle logout request request handler");
+                break;
+                
         }
         return serverResponse;
     }
@@ -48,6 +55,8 @@ public class requestHandler {
         if (clientHandler.player != null) {
             if (clientHandler.player.getPassword().equals(password)) {
                 response = ResponseGenerator.loginSuccessResponse(userName, password);
+                playerDAO.setPlayerOnlineStatus(userName, "T");
+                playerDAO.setPlayerAvailableStatus(userName, "T");
             } else {
                 // System.out.println(clientHandler.player.getPassword());
                 response = wrongPasswordResponse();
@@ -68,15 +77,28 @@ public class requestHandler {
         if (p == null) {
             playerDAO.insertPlayer(userName, password);
             response = successfulReqisration(userName, password);
+            clienthandeler.player.setUserName(userName);
         } else {
             response = playerExist();
         }
         playerDAO.closeDataBaseConnetion();
         return response;
     }
+    
+    public static String handleLogoutRequest(JSONObject userData, ClientHandler clienthandler){
+        
+        String name = (String) userData.get("username");
+        playerDAO.startDataBaseConnection();
+        System.out.print(name + "is loged out");
+        setPlayerOnlineStatus(name,"F");
+        setPlayerAvailableStatus(name,"F");
+        playerDAO.closeDataBaseConnetion();
+        
+        return "true";
+    }
 
-    public static String handleGetOnlinePlayersRequest(JSONObject userData, ClientHandler clienthandeler) {
-        startDataBaseConnection();
+    public static String handleGetOnlinePlayersRequest(JSONObject userData, ClientHandler clienthandler) {
+        playerDAO.startDataBaseConnection();
         ArrayList<String> onlinePlayersLIst = new ArrayList<>();
         onlinePlayersLIst = playerDAO.getOnlinePlayers();
         String response;

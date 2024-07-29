@@ -35,7 +35,8 @@ public class TicTacToeServer extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       // startDataBaseConnection();
+//        startDataBaseConnection();
+//        setPlayerOnlineStatus("ali","F");
         //insertPlayer("SAMMAR","sd2344s");
         Server.startServer();
         launch(args);

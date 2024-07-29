@@ -47,7 +47,7 @@ public class ClientHandler {
                 String playerRequest;
                     while (!socket.isClosed() &&(playerRequest = inputStream.readLine()) != null) {
                       sendResponse(requestHandler.handleRequest(playerRequest, ClientHandler.this));
-                      System.out.println(playerRequest);
+                      System.out.println(playerRequest+"from clientHandler");
                     }
             } catch (Exception e) {
                 System.out.println("exception in accept response");
