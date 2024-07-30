@@ -133,9 +133,9 @@ public class requestHandler {
         ClientHandler receiverHandler = findClientHandlerByName(receiver);
         
         if (receiverHandler != null) {
-            receiverHandler.sendResponse(ResponseGenerator.invitationReceivedResponse(sender));
-            System.out.println(ResponseGenerator.invitationReceivedResponse(sender));
-            return ResponseGenerator.invitationSentResponse(receiver);
+            receiverHandler.sendResponse(ResponseGenerator.invitationSentResponse(receiver));
+            //System.out.println(ResponseGenerator.invitationSentResponse(receiver));
+            return ResponseGenerator.invitationReceivedResponse(sender) ;
         } else {
             return ResponseGenerator.playerNotExistResponse();
         }
