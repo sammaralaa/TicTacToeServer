@@ -43,12 +43,12 @@ public class requestHandler {
             case "declineInvitation":
                 serverResponse = handleDeclineInvitationRequest(data, clientHandler);
                 break;
-                
+
             case "logout":
-                handleLogoutRequest(data,clientHandler);
+                handleLogoutRequest(data, clientHandler);
                 System.out.println("from handle logout request request handler");
                 break;
-                
+
         }
         return serverResponse;
     }
@@ -91,16 +91,16 @@ public class requestHandler {
         playerDAO.closeDataBaseConnetion();
         return response;
     }
-    
-    public static String handleLogoutRequest(JSONObject userData, ClientHandler clienthandler){
-        
+
+    public static String handleLogoutRequest(JSONObject userData, ClientHandler clienthandler) {
+
         String name = (String) userData.get("username");
         playerDAO.startDataBaseConnection();
         System.out.print(name + "is loged out");
-        setPlayerOnlineStatus(name,"F");
-        setPlayerAvailableStatus(name,"F");
+        setPlayerOnlineStatus(name, "F");
+        setPlayerAvailableStatus(name, "F");
         playerDAO.closeDataBaseConnetion();
-        
+
         return "true";
     }
 
@@ -131,11 +131,11 @@ public class requestHandler {
         String sender = (String) invitationData.get("invitationSender");
         String receiver = (String) invitationData.get("invitationReceiver");
         ClientHandler receiverHandler = findClientHandlerByName(receiver);
-        
+
         if (receiverHandler != null) {
-            receiverHandler.sendResponse(ResponseGenerator.invitationSentResponse(receiver,sender));
+            receiverHandler.sendResponse(ResponseGenerator.invitationSentResponse(receiver, sender));
             //System.out.println(ResponseGenerator.invitationSentResponse(receiver));
-            return ResponseGenerator.invitationReceivedResponse(sender) ;
+            return ResponseGenerator.invitationReceivedResponse(sender);
         } else {
             return ResponseGenerator.playerNotExistResponse();
         }
@@ -149,15 +149,19 @@ public class requestHandler {
         }
         return null;
     }
-     private static String handleAcceptInvitationRequest(JSONObject data, ClientHandler clientHandler) {
+
+    private static String handleAcceptInvitationRequest(JSONObject data, ClientHandler clientHandler) {
         String senderPlayerName = (String) data.get("sender");
         ClientHandler senderPlayerHandler = findClientHandlerByName(senderPlayerName);
-
+        System.out.println("from handleAcceptInvitationRequest");
         if (senderPlayerHandler != null) {
             // Notify the sender that the invitation was accepted
+            System.out.println("sender found");
             senderPlayerHandler.sendResponse(ResponseGenerator.invitationAccepted(clientHandler.player.getUserName()));
             return ResponseGenerator.invitationAccepted(clientHandler.player.getUserName());
         } else {
+            System.out.println("sender not found");
+
             return ResponseGenerator.playerNotExistResponse();
         }
     }
@@ -174,5 +178,5 @@ public class requestHandler {
             return ResponseGenerator.playerNotExistResponse();
         }
     }
-    
+
 }
