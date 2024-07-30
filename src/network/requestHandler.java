@@ -133,7 +133,7 @@ public class requestHandler {
         ClientHandler receiverHandler = findClientHandlerByName(receiver);
         
         if (receiverHandler != null) {
-            receiverHandler.sendResponse(ResponseGenerator.invitationSentResponse(receiver));
+            receiverHandler.sendResponse(ResponseGenerator.invitationSentResponse(receiver,sender));
             //System.out.println(ResponseGenerator.invitationSentResponse(receiver));
             return ResponseGenerator.invitationReceivedResponse(sender) ;
         } else {
