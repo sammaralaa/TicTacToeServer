@@ -70,10 +70,13 @@ public class ResponseGenerator {
         return responseObject.toString();
     }
      // to resever
-    public static String invitationSentResponse(String receiver) {
+    public static String invitationSentResponse(String receiver,String sender) {
         JSONObject responseObject = new JSONObject();
         responseObject.put("response", "invitationSent");
-        responseObject.put("receiver", receiver);
+        JSONObject data = new JSONObject();
+        data.put("receiver", receiver);
+        data.put("sender", sender);
+        responseObject.put("data",data);
         return responseObject.toString();
     }
     public static String invitationReceived(String sender) {
