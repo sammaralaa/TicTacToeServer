@@ -99,5 +99,10 @@ public class ResponseGenerator {
         return responseObject.toString();
     }
     
-     
+    public static String sendMoveToPlayer(JSONObject data){        
+        JSONObject response = new JSONObject();
+        response.put("response", "sendMove");
+        response.put("data",data);
+        return response.toString();
+    } 
 }

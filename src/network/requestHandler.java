@@ -178,5 +178,15 @@ public class requestHandler {
             return ResponseGenerator.playerNotExistResponse();
         }
     }
-
+    private static String handleSendMoveRequest(JSONObject data, ClientHandler clientHandler){
+        String senderPlayerName = (String) data.get("playerName");
+        ClientHandler senderPlayerHandler = findClientHandlerByName(senderPlayerName);
+        if (senderPlayerHandler != null) {
+            senderPlayerHandler.sendResponse(ResponseGenerator.sendMoveToPlayer(data));
+        }
+        else {
+            return ResponseGenerator.playerNotExistResponse();
+        }
+    return "";
+}
 }
