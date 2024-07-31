@@ -24,6 +24,7 @@ public class requestHandler {
         JSONObject data = (JSONObject) requestObject.get("data");
 
         switch (request) {
+            
             case "login":
                 serverResponse = handleLoginRequest(data, clientHandler);
                 System.out.println("from handle login request from requestHandler");
