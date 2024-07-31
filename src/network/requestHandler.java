@@ -48,6 +48,9 @@ public class requestHandler {
                 handleLogoutRequest(data, clientHandler);
                 System.out.println("from handle logout request request handler");
                 break;
+            case "sendMove":
+                handleSendMoveRequest(data,clientHandler);
+                break;
 
         }
         return serverResponse;
